@@ -1,22 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rune of the Sanctuary - Leaderboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .leaderboard {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            text-align: left;
+        }
+        th {
+            background: #ffd700;
+            color: #1a1a2e;
+        }
+        .green { color: #00ff88; }
+        .yellow { color: #ffd700; }
+        .purple { color: #c084fc; }
+        .red { color: #ff4444; }
+        button {
+            background: #ffd700;
+            color: #1a1a2e;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #ffed4a;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏆 RUNE OF THE SANCTUARY 🏆</h1>
+    <h2>Inorganic Chemistry - Coordination Number</h2>
+    
+    <div class="leaderboard">
+        <h3>📊 Live Leaderboard</h3>
+        <table id="scoreTable">
+            <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Points</th>
+                <th>Correct Answers</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Player 1</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Player 2</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Player 3</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Player 4</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+        </table>
+        
+        <div style="margin-top: 20px;">
+            <button onclick="addPoints('Player 1', 2)">Player 1 +2 (Green)</button>
+            <button onclick="addPoints('Player 2', 3)">Player 2 +3 (Yellow)</button>
+            <button onclick="resetGame()">🔄 Reset Game</button>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 14px; color: #aaa;">
+            <p>Difficulty Levels:</p>
+            <p><span class="green">🟢 Green: +2</span> | <span class="yellow">🟡 Yellow: +3</span> | <span class="purple">🟣 Purple: +4</span> | <span class="red">🔴 Red: +5</span></p>
+        </div>
+    </div>
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Leaderboard scoring app</title>
-      <meta name="description" content="This app allows students to answer questions and instantly view their scores on a leaderboard, fostering healthy competition and motivation." />
-      <meta name="robots" content="noindex, nofollow" />
-      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
-      
-    </head>
-
-    <body>
-      
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-      
-    </body>
-  </html>
-  
+    <script>
+        // Store player scores
+        let scores = {
+            'Player 1': 0,
+            'Player 2': 0,
+            'Player 3': 0,
+            'Player 4': 0
+        };
+        
+        let correctCounts = {
+            'Player 1': 0,
+            'Player 2': 0,
+            'Player 3': 0,
+            'Player 4': 0
+        };
+        
+        function updateLeaderboard() {
+            // Convert to array for sorting
+            let players = Object.keys(scores).map(name => ({
+                name: name,
+                points: scores[name],
+                correct: correctCounts[name]
+            }));
+            
+            // Sort by points (highest first)
+            players.sort((a, b) => b.points - a.points);
+            
+            // Update table
+            let table = document.getElementById('scoreTable');
+            table.innerHTML = `
+                <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Points</th>
+                    <th>Correct Answers</th>
+                </tr>
+            `;
+            
+            for (let i = 0; i < players.length; i++) {
+                let row = table.insertRow();
+                row.insertCell(0).innerHTML = i + 1;
+                row.insertCell(1).innerHTML = players[i].name;
+                row.insertCell(2).innerHTML = players[i].points;
+                row.insertCell(3).innerHTML = players[i].correct;
+            }
+        }
+        
+        function addPoints(playerName, points) {
+            scores[playerName] += points;
+            correctCounts[playerName] += 1;
+            updateLeaderboard();
+        }
+        
+        function resetGame() {
+            scores = {
+                'Player 1': 0,
+                'Player 2': 0,
+                'Player 3': 0,
+                'Player 4': 0
+            };
+            correctCounts = {
+                'Player 1': 0,
+                'Player 2': 0,
+                'Player 3': 0,
+                'Player 4': 0
+            };
+            updateLeaderboard();
+        }
+        
+        // Initialize leaderboard
+        updateLeaderboard();
+    </script>
+</body>
+</html>
