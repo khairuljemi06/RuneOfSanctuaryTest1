@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rune of Sanctuary - Very Hard Question 6</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; text-align: center; padding: 20px; }
+        .question-box { max-width: 600px; margin: 0 auto; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; }
+        .question-text { font-size: 20px; margin-bottom: 30px; text-align: left; }
+        .options { text-align: left; margin-bottom: 30px; }
+        .option { margin: 10px 0; }
+        input { width: 100%; padding: 12px; font-size: 16px; border-radius: 10px; border: none; margin-bottom: 20px; box-sizing: border-box; }
+        button { background: #ff4444; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .feedback { margin-top: 20px; font-size: 18px; }
+        .correct { color: #00ff88; }
+        .incorrect { color: #ff4444; }
+        .point-badge { background: #ff4444; color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🏆 RUNE OF THE SANCTUARY 🏆</h1>
+    <div class="question-box">
+        <div class="point-badge">🔴 VERY HARD: +5 POINTS</div>
+        <div class="question-text">
+            <strong>Question 14 (Very Hard):</strong> The number of possible geometrical isomers for an octahedral complex [MA₃B₃] is:
+        </div>
+        <div class="options">
+            <div class="option">A. 1</div>
+            <div class="option">B. 2</div>
+            <div class="option">C. 3</div>
+            <div class="option">D. 4</div>
+        </div>
+        <input type="text" id="answer" placeholder="Type your answer (A, B, C, or D)...">
+        <br>
+        <button onclick="checkAnswer()">Submit Answer</button>
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+    <script>
+        const correctAnswer = "B";
+        const points = 5;
+        
+        function checkAnswer() {
+            let userAnswer = document.getElementById('answer').value.trim().toUpperCase();
+            let feedbackDiv = document.getElementById('feedback');
+            
+            if (userAnswer === correctAnswer) {
+                feedbackDiv.innerHTML = `<span class="correct">✅ Correct! You earned +${points} points!</span>`;
+                let currentPoints = localStorage.getItem('playerPoints') || 0;
+                currentPoints = parseInt(currentPoints) + points;
+                localStorage.setItem('playerPoints', currentPoints);
+                setTimeout(() => { window.location.href = "index.html"; }, 1500);
+            } else {
+                feedbackDiv.innerHTML = `<span class="incorrect">❌ Incorrect! The correct answer is ${correctAnswer}. -1 point penalty.</span>`;
+                let currentPoints = localStorage.getItem('playerPoints') || 0;
+                currentPoints = parseInt(currentPoints) - 1;
+                localStorage.setItem('playerPoints', currentPoints);
+                setTimeout(() => { window.location.href = "index.html"; }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
