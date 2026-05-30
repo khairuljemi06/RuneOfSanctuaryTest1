@@ -34,4 +34,31 @@
         <input type="text" id="answer" placeholder="Type your answer (A, B, C, or D)...">
         <br>
         <button onclick="checkAnswer()">Submit Answer</button>
-        <div
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+    <script>
+        const correctAnswer = "A";
+        const points = 5;
+        
+        function checkAnswer() {
+            let userAnswer = document.getElementById('answer').value.trim().toUpperCase();
+            let feedbackDiv = document.getElementById('feedback');
+            
+            if (userAnswer === correctAnswer) {
+                feedbackDiv.innerHTML = `<span class="correct">✅ Correct! You earned +${points} points!</span>`;
+                let currentPoints = localStorage.getItem('playerPoints') || 0;
+                currentPoints = parseInt(currentPoints) + points;
+                localStorage.setItem('playerPoints', currentPoints);
+                setTimeout(() => { window.location.href = "index.html"; }, 1500);
+            } else {
+                feedbackDiv.innerHTML = `<span class="incorrect">❌ Incorrect! The correct answer is ${correctAnswer}. -1 point penalty.</span>`;
+                let currentPoints = localStorage.getItem('playerPoints') || 0;
+                currentPoints = parseInt(currentPoints) - 1;
+                localStorage.setItem('playerPoints', currentPoints);
+                setTimeout(() => { window.location.href = "index.html"; }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
